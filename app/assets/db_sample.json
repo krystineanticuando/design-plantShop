@@ -1,0 +1,65 @@
+{
+    "Plant_Inventory": [
+        {
+            "Care_Needs": "LOW",
+            "Common_Name": "Lance-leaved coreopsis",
+            "Description": "Lance-leaved plant is sun-loving, drought-tolerant and highly attractive to hungry butterflies. Plant coreopsis in a sunny spot that receives at least 6 to 8 hours of direct sun a day. Coreopsis prefers a rich, well-drained soil, but will be fine in poorer, drier conditions. It has medium water needs.",
+            "Light_Exposure": "HIGH",
+            "Photo": "https://th.bing.com/th/id/R.5e9ecd1575a9affae8eaffb24f697699?rik=DCSAAS9qqmF2OA&riu=http%3a%2f%2fdanzigeronline.com%2fcmp%2fwp-content%2fuploads%2f2018%2f05%2fcoreopsis.png&ehk=O3yEcTv2c%2b15JppAhffgMFbRsjuACi1xp4Myo7uVg60%3d&risl=&pid=ImgRaw&r=0",
+            "Plant_ID": "00000017",
+            "Price": 597,
+            "Scientific_Name": "Coreopsis lanceolata",
+            "Stock": 100,
+            "Water_Use": "LOW"
+        },
+        {
+            "Care_Needs": "LOW",
+            "Common_Name": "Baston ni San Jose",
+            "Description": "Baston ni San Jose is an erect, smooth shrub which grows from 1 to 3 meters high from tuberous roots. Stems are simple or somewhat branched, and marked with leaf-scars. Leaves are mostly near the apex of the stem, and usually tinged with red or purple. It is considered antiseptic, aphrodisiac, depurative, diuretic, among many others.",
+            "Light_Exposure": "MEDIUM",
+            "Photo": "https://www.thegardenstore.sg/image/cache/catalog/products/Plant/cordyline%20red-910x1155.png",
+            "Plant_ID": "00000024",
+            "Price": 399,
+            "Scientific_Name": "Cordyline fruticosa",
+            "Stock": 12,
+            "Water_Use": "MEDIUM"
+        },
+        {
+            "Care_Needs": "MEDIUM",
+            "Common_Name": "Pacova",
+            "Description": "Pacova is a classic, and practically no-fail houseplant because it\\'s so easy to grow. Grow pacova just about anywhere. As houseplants they\\'re that easy to keep!. The plants grow best in medium or bright-light spots, but tolerate low light exceedingly well. Water philodendrons enough when the soil surface dries. They\\'re tough enough plants they don\\'t mind if you forget to water them now and again. Just take care not to overwater.\"",
+            "Light_Exposure": "LOW",
+            "Photo": "https://th.bing.com/th/id/R.e11a5a4d93dc5b3a51236a3b7329c854?rik=2sHc0uDI7Yi9sQ&riu=http%3a%2f%2fwww.bambooland.com.au%2fassets%2ffull%2fPHICONUSA.png&ehk=RnCntAcIlGMOJr8nf%2fwGB6ShELLAFkTnpNYb6J9veIw%3d&risl=&pid=ImgRaw&r=0",
+            "Plant_ID": "00000031",
+            "Price": 199,
+            "Scientific_Name": "Philodendron martianum",
+            "Stock": 20,
+            "Stock ": 50,
+            "Water_Use": "MEDIUM"
+        }
+    ],
+    "Transaction": {
+        "0001": {
+            "Date": "11/08/2021",
+            "Total_Amount": 120,
+            "TransactionId": "0001",
+            "items": {
+                "A01": {
+                    "ItemID": 2438,
+                    "Quantity": 5
+                }
+            }
+        },
+        "0002": {
+            "Date": "01/03/2022",
+            "Total_Amount": 150,
+            "TransactionId": "0002",
+            "items": {
+                "A01": {
+                    "ItemID": 2475,
+                    "Quantity": 4
+                }
+            }
+        }
+    }
+}
