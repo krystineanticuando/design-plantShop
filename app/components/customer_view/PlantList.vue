@@ -1,8 +1,39 @@
 <template>
   <Page>
-    <ActionBar title="🍃 Plan List" />
+    <ActionBar title="🍃 Plan List">
+      <NavigationButton visibility="collapsed"></NavigationButton>
+
+      <ActionItem ios.position="right">
+        <Label
+          width="70"
+          @tap="paynow()"
+          :disabled="show_no_item_in_cart"
+          v-if="orders > 0"
+        >
+          <FormattedString>
+            <Span
+              class="fas"
+              fontSize="22"
+              height="50"
+              width="50"
+              text.decode="&#xf217;"
+            >
+            </Span>
+            <Span text="  "></Span>
+            <Span
+              v-if="orders > 0"
+              :text="orders"
+              color="#f44336"
+              fontWeight="bold"
+              fontSize="18"
+            />
+          </FormattedString>
+        </Label>
+      </ActionItem>
+    </ActionBar>
+
     <StackLayout orientation="vertical">
-      <Label
+      <!-- <Label
         textAlignment="left"
         width="100%"
         marginTop="10"
@@ -10,20 +41,37 @@
         marginLeft="15"
       >
         <FormattedString>
-          <Span text="🌾 Item in your cart..." fontSize="14" color="#666" />
+          <Span
+            :text="'🌾 Item in your cart [ ' + orders + ' ]'"
+            fontSize="14"
+            color="#666"
+          />
+        </FormattedString>
+      </Label> -->
+      <Label
+        v-if="show_no_item_in_cart"
+        style="
+          text-align: center;
+          background: #ddd;
+          color: #242424;
+          padding: 20px;
+        "
+      >
+        <FormattedString>
+          <Span
+            text=" Opps, No items in your cart!"
+            fontSize="16"
+            fontWeight="bold"
+          />
         </FormattedString>
       </Label>
-      <ScrollView orientation="vertical" marginBottom="10">
+      <ScrollView orientation="vertical">
         <StackLayout orientation="vertical">
           <StackLayout
             v-for="(item, index) in plants"
             :key="index"
             orientation="horizontal"
             class="plant_info"
-            borderColor="#ddd"
-            backgroundColor="#fff"
-            borderWidth="1"
-            marginBottom="5"
             paddingTop="20"
             paddingBottom="20"
             @tap="moreInfo(item)"
@@ -65,8 +113,44 @@
                   />
                 </FormattedString>
               </Label>
+
+              <Label height="20" backgroundColor="#fff"></Label>
+
+              <Button class="more_info" @tap="moreInfo(item)">
+                <FormattedString>
+                  <Span class="fas" text.decode="&#xf05a;"> </Span>
+                  <Span text=" More Info" fontWeight="bold" />
+                </FormattedString>
+              </Button>
             </StackLayout>
           </StackLayout>
+          <GridLayout rows="*" columns="*,*">
+            <Button
+              class="cancel"
+              @tap="cancel()"
+              style="height: 100px; margin-right: 0"
+              row="0"
+              col="0"
+            >
+              <FormattedString>
+                <Span class="fas" text.decode="&#xf410;"> </Span>
+                <Span text=" Clear Selections" fontWeight="bold" />
+              </FormattedString>
+            </Button>
+            <Button
+              :disabled="show_no_item_in_cart"
+              class="paynow"
+              @tap="paynow()"
+              style="height: 100px; margin-left=0"
+              row="0"
+              col="1"
+            >
+              <FormattedString>
+                <Span class="fas" text.decode="&#xf53b;"> </Span>
+                <Span text=" Pay Now!" fontWeight="bold" />
+              </FormattedString>
+            </Button>
+          </GridLayout>
         </StackLayout>
       </ScrollView>
     </StackLayout>
@@ -74,33 +158,49 @@
 </template>
 
 <script>
+import h from '../../helpers/helpers'
 import PlantInfo from "./PlantInfo";
 import Receipt from "./Receipt";
 export default {
   methods: {
     moreInfo(item) {
-      // this.$navigateTo(PlantInfo, {
-      //   props: {
-      //     info: item
-      //   }
-      // });
-      this.$navigateTo(Receipt, {
+      this.$navigateTo(PlantInfo, {
         props: {
-          purchased: item
+          info: item
         }
       });
+    },
+    paynow() {
+      if (this.orders > 0) {
+        this.$navigateTo(Receipt);
+      } else {
+        this.show_no_item_in_cart = true
+        setTimeout(() => {
+          this.show_no_item_in_cart = false
+        }, 1500);
+      }
+    },
+    cancel() {
+      this.$store.commit('clearOrders')
     }
   },
   data() {
     return {
-      plants: []
+      plants: [],
+      selections: [],
+      show_no_item_in_cart: false
     };
+  },
+  computed: {
+    orders() {
+      return this.$store.state.orders.length
+    }
   },
   mounted() {
     const data = require('../../assets/db_sample.json')["Plant_Inventory"]
     this.plants = data.map((x) => {
-      x['Photo'] = '~/assets/icons/shop-logo.png'
-      x["Price"] = `Php ${parseFloat(x["Price"].toString().replace(/[^0-9,.]/gi, '')).toFixed(2)}`;
+      // x['Photo'] = '~/assets/icons/shop-logo.png'
+      x["Price"] = h.toPhp(x["Price"]);
       x["Description"] = `
                     <p style="text-align:justify;text-align-last:center;margin:0 5px 0 0;">
                     <!--<span style="color:#aaa">Description: </span>-->
@@ -115,9 +215,48 @@ export default {
 
 <style>
 .plant_info {
-  border-bottom-width: 15;
-  border-bottom-color: blue;
-  padding: 5px;
-  background-color: gray;
+  margin: 0 0 30px 0;
+  box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+.cancel {
+  color: #fff;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+  background: #232526; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #414345,
+    #232526
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #414345,
+    #232526
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.paynow {
+  border-bottom-right-radius: 50%;
+  border-top-right-radius: 50%;
+  color: #fff;
+  background: #134e5e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #71b280,
+    #134e5e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #71b280,
+    #134e5e
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.more_info {
+  border: 1px solid #aaa;
+  box-shadow: none;
+  height: 85px;
+  width: 95%;
 }
 </style>

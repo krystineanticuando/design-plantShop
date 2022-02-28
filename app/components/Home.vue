@@ -28,17 +28,19 @@
         class="customer"
       >
         <FormattedString>
-          <Span text="Customer" fontWeight="bold" color="#fff" />
+          <Span class="fas" text.decode="&#xf0c0;"></Span>
+          <Span text=" Customer" fontWeight="bold" />
         </FormattedString>
       </Button>
       <Button
         borderRadius="50%"
-        class="owner"
-        width="75%"
+        width="80%"
         @tap="onStoreOwner()"
+        class="owner"
       >
         <FormattedString>
-          <Span text=" Store Owner" fontWeight="bold" color="#fff" />
+          <Span class="fas" text.decode="&#xf007;"></Span>
+          <Span text=" Store Owner" fontWeight="bold" />
         </FormattedString>
       </Button>
     </FlexboxLayout>
@@ -50,10 +52,11 @@ import PlantList from "@/components/customer_view/PlantList";
 export default {
   methods: {
     onCustomer() {
-      this.$navigateTo(PinGeneration);
+      this.$navigateTo(PlantList);
+      // this.$navigateTo(PinGeneration);
     },
     onStoreOwner() {
-      this.$navigateTo(PlantList);
+
     }
   },
 
@@ -68,6 +71,7 @@ export default {
 
 <style scoped>
 .customer {
+  color: #fff;
   background: #134e5e; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to bottom,
@@ -82,6 +86,7 @@ export default {
 }
 
 .owner {
+  color: #fff;
   background: #134e5e; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to top,
