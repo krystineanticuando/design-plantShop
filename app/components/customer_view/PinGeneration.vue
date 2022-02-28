@@ -7,8 +7,8 @@
       style="justify-content: center; align-items: center"
     >
       <image
-        height="150"
-        width="150"
+        height="100"
+        width="100"
         src="~/assets/icons/customer.png"
         stretch="fill"
         loadMode="async"

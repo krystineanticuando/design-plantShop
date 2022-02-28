@@ -47,16 +47,15 @@
   </Page>
 </template>
 <script>
-import PinGeneration from "@/components/customer_view/PinGeneration";
-import PlantList from "@/components/customer_view/PlantList";
+import PinGeneration from "@/components/customer_view/PinGeneration"
+import SellerLogin from '@/components/owner_view/SellerLogin.vue'
 export default {
   methods: {
     onCustomer() {
-      this.$navigateTo(PlantList);
-      // this.$navigateTo(PinGeneration);
+      this.$navigateTo(PinGeneration);
     },
     onStoreOwner() {
-
+      this.$navigateTo(SellerLogin);
     }
   },
 

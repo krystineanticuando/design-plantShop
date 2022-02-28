@@ -4,7 +4,7 @@
       <NavigationButton visibility="collapsed"></NavigationButton>
 
       <ActionItem ios.position="right">
-        <Label width="70" @tap="onPlantList()">
+        <Label width="50" @tap="onPlantList()">
           <FormattedString>
             <Span
               class="fas"
@@ -45,11 +45,52 @@
         marginTop="20"
         @tap="onGenerate()"
         height="40"
+        :disabled="show_receipt"
       >
         <FormattedString>
           <Span text=" Generate Receipt!" fontWeight="bold" color="#fff" />
         </FormattedString>
       </Button>
+
+      <Label
+        v-if="show_receipt"
+        style="
+          text-align: center;
+          background: #ddd;
+          color: #242424;
+          padding-top: 50px;
+        "
+      >
+        <FormattedString>
+          <Span class="fas" text.decode="&#xf058;" fontSize="26" />
+        </FormattedString>
+      </Label>
+      <Label
+        v-if="show_receipt"
+        style="
+          text-align: center;
+          background: #ddd;
+          color: #242424;
+          padding: 20px;
+        "
+      >
+        <FormattedString>
+          <Span text="Receipt Generated" fontSize="18" />
+        </FormattedString>
+      </Label>
+      <Label
+        v-if="show_receipt"
+        style="
+          text-align: center;
+          background: #ddd;
+          color: #444;
+          padding-bottom: 50px;
+        "
+      >
+        <FormattedString>
+          <Span text="Pay at the counter" fontSize="14" color="#666" />
+        </FormattedString>
+      </Label>
     </StackLayout>
   </Page>
 </template>
@@ -61,7 +102,10 @@ import TwoColGrid from '../common/two_col_grid.vue'
 export default {
   methods: {
     onGenerate() {
-      console.log("Button was pressed");
+      this.show_receipt = true
+      setTimeout(() => {
+        this.show_receipt = false
+      }, 1500);
     },
     onPlantList() {
       this.$navigateTo(PlantList);
@@ -78,6 +122,7 @@ export default {
         content: [],
         cols: []
       },
+      show_receipt: false
     };
   },
   created() {
