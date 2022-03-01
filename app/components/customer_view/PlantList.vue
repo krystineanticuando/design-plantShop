@@ -6,7 +6,7 @@
       <ActionItem ios.position="right">
         <Label
           width="70"
-          @tap="paynow()"
+          @tap="onPayNow()"
           :disabled="show_no_item_in_cart"
           v-if="orders > 0"
         >
@@ -74,7 +74,7 @@
             class="plant_info"
             paddingTop="20"
             paddingBottom="20"
-            @tap="moreInfo(item)"
+            @tap="onMoreInfo(item)"
           >
             <Image
               :src="item['Photo']"
@@ -116,7 +116,7 @@
 
               <Label height="20" backgroundColor="#fff"></Label>
 
-              <Button class="more_info" @tap="moreInfo(item)">
+              <Button class="more_info" @tap="onMoreInfo(item)">
                 <FormattedString>
                   <Span class="fas" text.decode="&#xf05a;"> </Span>
                   <Span text=" More Info" fontWeight="bold" />
@@ -127,7 +127,7 @@
           <GridLayout rows="*" columns="*,*">
             <Button
               class="cancel"
-              @tap="cancel()"
+              @tap="onCancel()"
               style="height: 100px; margin-right: 0"
               row="0"
               col="0"
@@ -140,7 +140,7 @@
             <Button
               :disabled="show_no_item_in_cart"
               class="paynow"
-              @tap="paynow()"
+              @tap="onPayNow()"
               style="height: 100px; margin-left=0"
               row="0"
               col="1"
@@ -163,14 +163,14 @@ import PlantInfo from "./PlantInfo";
 import Receipt from "./Receipt";
 export default {
   methods: {
-    moreInfo(item) {
+    onMoreInfo(item) {
       this.$navigateTo(PlantInfo, {
         props: {
           info: item
         }
       });
     },
-    paynow() {
+    onPayNow() {
       if (this.orders > 0) {
         this.$navigateTo(Receipt);
       } else {
@@ -180,7 +180,7 @@ export default {
         }, 1500);
       }
     },
-    cancel() {
+    onCancel() {
       this.$store.commit('clearOrders')
     }
   },
@@ -197,18 +197,24 @@ export default {
     }
   },
   mounted() {
-    const data = require('../../assets/db_sample.json')["Plant_Inventory"]
-    this.plants = data.map((x) => {
-      // x['Photo'] = '~/assets/icons/shop-logo.png'
-      x["Price"] = h.toPhp(x["Price"]);
-      x["Description"] = `
+    this.$fb.getValue('/Plant_Inventory')
+      .then(result => result['value']
+        .filter((x) => x != null).slice(0, 3)
+      )
+      .then((data) => {
+        this.plants = data.map((x) => {
+          // x['Photo'] = '~/assets/icons/shop-logo.png'
+          x["Price"] = h.toPhp(x["Price"]);
+          x["Description"] = `
                     <p style="text-align:justify;text-align-last:center;margin:0 5px 0 0;">
                     <!--<span style="color:#aaa">Description: </span>-->
                     ${x["Description"].replace(/\\/gi, "")}
                     </p>
                     `;
-      return x
-    })
+          return x
+        })
+      })
+      .catch(alert)
   }
 };
 </script>

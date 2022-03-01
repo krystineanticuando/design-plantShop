@@ -4,7 +4,7 @@
       <NavigationButton visibility="collapsed"></NavigationButton>
 
       <ActionItem ios.position="right">
-        <Label width="70" v-if="orders > 0" @tap="paynow()">
+        <Label width="70" v-if="orders > 0" @tap="onPayNow()">
           <FormattedString>
             <Span
               class="fas"
@@ -55,7 +55,7 @@
           </Label>
           <HtmlView marginTop="20" :html="info['Description']" />
           <two-col-grid :data="data" />
-          <Button class="add_to_cart" @tap="addtocart()">
+          <Button class="add_to_cart" @tap="onAddToCart()">
             <FormattedString>
               <Span class="fas" text.decode="&#xf217;"> </Span>
               <Span text=" Add to Cart" fontWeight="bold" />
@@ -70,7 +70,7 @@
 <script>
 import h from '../../helpers/helpers'
 import Receipt from "./Receipt";
-import TwoColGrid from '../common/two_col_grid.vue'
+import TwoColGrid from '../common/grids.vue'
 export default {
   computed: {
     orders() {
@@ -91,14 +91,14 @@ export default {
     };
   },
   methods: {
-    addtocart() {
+    onAddToCart() {
       this.info['Stock']--
       this.$store.commit('addOrder', {
         key: this.info['Common_Name'],
         item: this.info["Price"].toString().replace(/[^0-9,.]/gi, '')
       })
     },
-    paynow() {
+    onPayNow() {
       if (this.orders > 0) {
         this.$navigateTo(Receipt);
       }

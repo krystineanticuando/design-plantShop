@@ -40,7 +40,7 @@
           marginLeft="0"
           height="40"
           color="#fff"
-          @tap="showSellerView()"
+          @tap="onSellerLogin()"
         >
           <FormattedString>
             <Span class="fas" text.decode="&#xf084;"></Span>
@@ -62,7 +62,7 @@ export default {
     };
   },
   methods: {
-    showSellerView() {
+    onSellerLogin() {
       this.$navigateTo(SellerView);
     }
   }

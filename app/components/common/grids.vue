@@ -11,6 +11,7 @@
       padding="5 10"
       :textAlignment="item['text_align']"
       marginBottom="2"
+      @tap="onSelected(item['col'], index)"
     >
       <FormattedString>
         <Span :text="item['text']" :fontSize="item['size'] || 14" />
@@ -34,6 +35,10 @@ export default {
       this.rows = this.data['rows'].join(',')
       this.cols = this.data['cols'].join(',')
       this.grid = this.data['content']
+    },
+    onSelected(index, item) {
+      if (index == 0 && item > 0)
+        this.$emit('onDelete', item)
     }
   },
   mounted() {

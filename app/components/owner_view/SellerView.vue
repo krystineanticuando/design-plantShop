@@ -23,10 +23,14 @@
             col="0"
             row="0"
           />
-          <Label col="0" row="1" class="label-grid"
+          <Label
+            col="0"
+            row="1"
+            class="label-grid"
+            @tap="onShowSellerInventory()"
             ><FormattedString>
               <Span
-                text="View History"
+                text="View Inventory"
                 color="#666"
                 fontWeight="bold"
                 fontSize="16"
@@ -44,10 +48,14 @@
             col="0"
             row="0"
           />
-          <Label col="0" row="1" class="label-grid"
+          <Label
+            col="0"
+            row="1"
+            class="label-grid"
+            @tap="onShowSellerTransaction()"
             ><FormattedString>
               <Span
-                text="View Inventory"
+                text="View Transaction"
                 color="#666"
                 fontWeight="bold"
                 fontSize="16"
@@ -61,7 +69,8 @@
 </template>
 
 <script>
-// import PlantList from "./PlantList";
+import SellerInventory from './SellerInventory.vue'
+import SellerTransaction from './SellerTransaction.vue'
 export default {
   data() {
     return {
@@ -70,8 +79,11 @@ export default {
     };
   },
   methods: {
-    showPlantList() {
-      //   this.$navigateTo(PlantList);
+    onShowSellerInventory() {
+      this.$navigateTo(SellerInventory);
+    },
+    onShowSellerTransaction() {
+      this.$navigateTo(SellerTransaction);
     }
   }
 };

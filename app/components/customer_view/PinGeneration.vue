@@ -44,7 +44,7 @@
             marginLeft="0"
             height="40"
             color="#fff"
-            @tap="showPlantList()"
+            @tap="onPinGeneration()"
             text="➜"
             selectedBackgroundColor="#444"
           />
@@ -63,7 +63,7 @@ export default {
     };
   },
   methods: {
-    showPlantList() {
+    onPinGeneration() {
       this.$navigateTo(PlantList);
     }
   }

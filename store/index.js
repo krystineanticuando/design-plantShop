@@ -17,10 +17,16 @@ export default new Vuex.Store({
             [key]:item
         })
       },
-      removeOrder(state,item){
-        const index = state.orders.findIndex((x)=>JSON.stringify(item)==JSON.stringify(x))
-        if(index !=-1){
-            state.orders.splice(index,1)
+      removeSimilarOrder(state,item){
+        const ids = []
+        state.orders.forEach((order,i)=>{
+          if(order[item]){
+            ids.push(i)
+          }
+        })
+        while(ids.length){
+          const id = ids.pop()
+          state.orders.splice(id,1)
         }
       }
   }
