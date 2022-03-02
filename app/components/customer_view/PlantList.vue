@@ -192,9 +192,6 @@ export default {
     orders() {
       return this.$store.state.orders.length
     },
-    // plants() {
-    //   return this.$store.state.plants
-    // }
   },
   created() {
     this.isBusy = true

@@ -2,7 +2,14 @@
   <Page>
     <!-- <ActionBar title="🍁 Transactions"></ActionBar> -->
     <ActionBar title="🍁">
-      <ActionItem ios.position="right" v-if="!isBusy">
+      <ActionItem v-show="!isBusy" ios.position="right">
+        <Label @tap="onReset()" fontSize="22">
+          <FormattedString>
+            <Span class="fas" text.decode="&#xf021;" color="#444"></Span>
+          </FormattedString>
+        </Label>
+      </ActionItem>
+      <ActionItem ios.position="right" v-show="!isBusy">
         <StackLayout
           orientation="horizontal"
           borderColor="#ccc"
@@ -16,7 +23,7 @@
         >
           <TextField
             v-model="transaction"
-            hint="Search transaction"
+            hint="Search Generated Pin"
             borderWidth="0"
             width="210"
             height="40"
@@ -33,11 +40,7 @@
           />
         </StackLayout>
       </ActionItem>
-      <ActionItem ios.position="right" v-else>
-        <ActivityIndicator :busy="isBusy" />
-      </ActionItem>
     </ActionBar>
-
     <ActivityIndicator v-if="isBusy" :busy="isBusy" />
     <StackLayout v-else orientation="vertical">
       <ScrollView orientation="vertical" marginTop="0">
@@ -61,18 +64,36 @@
               rows="*,*"
               width="100%"
             >
-              <Label
-                col="0"
-                row="0"
-                style="padding: 20px"
-                fontSize="14"
-                backgroundColor="#dfe3ee"
-              >
-                <FormattedString>
-                  <Span class="fas" text.decode="&#xf017;"></Span>
-                  <Span :text="' ' + it['date']" fontWeight="bold" />
-                </FormattedString>
-              </Label>
+              <GridLayout col="0" row="0" columns="*,*" rows="50">
+                <Label
+                  style="text-align: center; padding: 40px 0"
+                  fontSize="14"
+                  backgroundColor="#dfe3ee"
+                  col="0"
+                  row="0"
+                >
+                  <FormattedString>
+                    <Span class="fas" text.decode="&#xf017;"></Span>
+                    <Span
+                      :text="' ' + it['date'].replace(/\_/gi, '/')"
+                      fontWeight="bold"
+                    />
+                  </FormattedString>
+                </Label>
+                <Button
+                  style="padding: 20px"
+                  fontSize="14"
+                  col="1"
+                  row="0"
+                  width="100%"
+                  @tap="onViewReceipt(item['user'], it['data']['ordered'])"
+                >
+                  <FormattedString>
+                    <Span class="fas" text.decode="&#xf543;"></Span>
+                    <Span text=" View Receipt" fontWeight="bold" />
+                  </FormattedString>
+                </Button>
+              </GridLayout>
               <two-col-grid :data="it['data']" col="0" row="1" />
             </GridLayout>
           </StackLayout>
@@ -85,12 +106,9 @@
 <script>
 import h from '../../helpers/helpers'
 import TwoColGrid from '../common/grids.vue'
+import Receipt from './Receipt.vue'
 export default {
-  methods: {
-    onSearchTransactions() {
 
-    }
-  },
   components: {
     TwoColGrid,
   },
@@ -102,21 +120,40 @@ export default {
     };
   },
   methods: {
-    buildGrids(items, total, bg, row, transaction) {
+    onReset() {
+      this.transaction = ""
+      this.getTransactions()
+    },
+    onSearchTransactions() {
+      this.getTransactions(this.transaction)
+      this.transaction = ""
+    },
+    onViewReceipt(user, item) {
+      this.$navigateTo(Receipt, {
+        props: {
+          info: {
+            user: user,
+            item: item
+          }
+        }
+      });
+    },
+    buildGrids(items, total, bg, transaction) {
       let payable = 0
       const bydate = []
       const data = {
         rows: [],
         content: [],
-        cols: []
+        cols: [],
+        ordered: []
       }
       data['cols'] = ['50', '2*', '*']
       const keys = Object.keys(transaction)
       keys.forEach((x) => {
-        //x = date
+
         data['content'].push({
           col: 0,
-          row: row,
+          row: 0,
           background: bg,
           size: 14,
           text: 'Qty',
@@ -125,7 +162,7 @@ export default {
 
         data['content'].push({
           col: 1,
-          row: row,
+          row: 0,
           background: bg,
           size: 14,
           text: items,
@@ -133,7 +170,7 @@ export default {
         })
         data['content'].push({
           col: 2,
-          row: row,
+          row: 0,
           background: bg,
           size: 14,
           text: total,
@@ -154,8 +191,17 @@ export default {
           payable += parseFloat(z[plant])
         })
         const qtys = Object.keys(qty)
+        let row = 2
+        let total_qty = 0
         qtys.forEach((z, i) => {
           row++
+          data['ordered'].push({
+            [z]: {
+              price: qty[z]['price'],
+              qty: qty[z]['qty']
+            }
+          })
+          total_qty += parseInt(qty[z]['qty'])
           data['content'].push({
             col: 0,
             row: i + 1,
@@ -183,20 +229,19 @@ export default {
           data['rows'].push('auto')
         })
 
-
         data['content'].push({
           col: 0,
           row: row,
-          background: '#fff',
+          background: '#ddd',
           size: 14,
-          text: '',
+          text: total_qty,
           text_align: 'center'
         })
 
         data['content'].push({
           col: 1,
           row: row,
-          background: '#fff',
+          background: '#ddd',
           size: 14,
           text: 'Payable',
           text_align: 'center'
@@ -219,16 +264,22 @@ export default {
       return bydate
 
     },
-    async getTransactions() {
+    async getTransactions(key = "") {
       this.isBusy = true
-      const v = await this.$fb.getValue(`/Transactions`)
+      this.formatted_data.length = 0
+      const v = await this.$fb.getValue(`/Transactions/${key}`)
       if (v['value'] != null) {
         this.today = new Date().toString();
-        const ids = Object.keys(v['value'])
-        ids.forEach((x, i) => {
+        let ids = v['value']
+        if (key != "") {
+          ids = {
+            [key]: v['value']
+          }
+        }
+        Object.keys(ids).forEach((x, i) => {
           this.formatted_data.push({
             user: x,
-            grid: this.buildGrids('Plant Name', 'Amount', '#eee', i, v['value'][x])
+            grid: this.buildGrids('Plant Name', 'Amount', '#eee', ids[x])
           })
         })
       }
@@ -238,7 +289,6 @@ export default {
     }
   },
   mounted() {
-
     this.getTransactions()
   },
 };

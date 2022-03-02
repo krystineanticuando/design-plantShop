@@ -1,5 +1,22 @@
 <template>
   <Page>
+    <ActionBar title="🍂 Purchased List">
+      <NavigationButton visibility="collapsed"></NavigationButton>
+      <ActionItem ios.position="right">
+        <Label width="50" @tap="onSellerView()">
+          <FormattedString>
+            <Span
+              class="fas"
+              fontSize="22"
+              height="50"
+              width="50"
+              text.decode="&#xf5bb;"
+            >
+            </Span>
+          </FormattedString>
+        </Label>
+      </ActionItem>
+    </ActionBar>
     <StackLayout orientation="vertical">
       <StackLayout
         orientation="vertical"
@@ -8,8 +25,18 @@
         backgroundColor="#eee"
         marginBottom="0"
       >
-        <Label text="Customer ID" textAlignment="center" />
-        <Label text="Receipt" textAlignment="center" fontSize="26" />
+        <Label
+          :text="'Customer [ ' + user + ' ]'"
+          textAlignment="center"
+          fontWeight="bold"
+          fontSize="16"
+        />
+        <Label
+          text="Receipt"
+          textAlignment="center"
+          fontSize="26"
+          fontWeight="bold"
+        />
         <Label
           :text="today"
           textAlignment="center"
@@ -17,7 +44,7 @@
           marginTop="20"
         />
       </StackLayout>
-      <ScrollView orientation="vertical" marginTop="0">
+      <ScrollView orientation="vertical" marginTop="10">
         <two-col-grid :data="data" />
       </ScrollView>
       <Button
@@ -30,7 +57,11 @@
         :disabled="show_receipt"
       >
         <FormattedString>
-          <Span text=" Generate Receipt" fontWeight="bold" color="#fff" />
+          <Span
+            text=" Generate Payment Receipt"
+            fontWeight="bold"
+            color="#fff"
+          />
         </FormattedString>
       </Button>
 
@@ -70,7 +101,11 @@
         "
       >
         <FormattedString>
-          <Span text="Customer ID" fontSize="14" color="#666" />
+          <Span
+            :text="'Customer [ ' + user + ' ]'"
+            fontSize="14"
+            color="#666"
+          />
         </FormattedString>
       </Label>
     </StackLayout>
@@ -78,9 +113,10 @@
 </template>
 <script>
 import h from '../../helpers/helpers'
-import PlantList from "@/components/customer_view/PlantList";
+import SellerView from "./SellerView.vue";
 import TwoColGrid from '../common/grids.vue'
 export default {
+  props: ['info'],
   methods: {
     onAccept() {
       this.show_receipt = true
@@ -88,6 +124,9 @@ export default {
         this.show_receipt = false
       }, 1500);
     },
+    onSellerView() {
+      this.$navigateTo(SellerView)
+    }
   },
   components: {
     TwoColGrid,
@@ -100,17 +139,15 @@ export default {
         content: [],
         cols: []
       },
-      show_receipt: false
+      show_receipt: false,
+      user: ""
     };
   },
   created() {
-    this.today = new Date().toString();
+    this.today = h.formatDate(new Date(), true, '/')
     this.data['cols'] = ['50', '2*', '*']
     let amount = 0
-    const grp = {}
-
-    //header
-    //total
+    let total_qty = 0
     this.data['content'].push({
       col: 0,
       row: 0,
@@ -137,67 +174,57 @@ export default {
     })
     this.data['rows'].push('auto')
 
-    this.$store.state.orders.forEach((item) => {
-      const items = Object.keys(item)
-      const key = items[0].replace(/-/gi, ' ')
-      if (!(key in grp)) {
-        grp[key] = {
-          qty: 1,
-          code: key,
-          amount: parseFloat(item[items[0]])
-        }
-      } else {
-        grp[key] = {
-          qty: parseInt(grp[key]['qty']) + 1,
-          code: key,
-          amount: parseFloat(grp[key]['amount']) + parseFloat(item[items[0]])
-        }
-      }
-      amount += parseFloat(item[items[0]])
-    })
-    const keys = Object.keys(grp)
-    keys.forEach((item, i) => {
-      const items = grp[item]
-      this.data['content'].push({
-        col: 0,
-        row: i + 1,
-        background: '#ddd',
-        size: 14,
-        text: items['qty'],
-        text_align: 'right'
-      })
+    this.user = this.info['user']
+    this.info['item'].forEach((info, i) => {
+      const keys = Object.keys(info)
+      keys.forEach((item) => {
+        const items = info[item]
+        this.data['content'].push({
+          col: 0,
+          row: i + 1,
+          background: '#fff',
+          size: 14,
+          text: items['qty'],
+          text_align: 'center'
+        })
 
-      this.data['content'].push({
-        col: 1,
-        row: i + 1,
-        background: '#ddd',
-        size: 14,
-        text: items['code'],
-        text_align: 'right'
+        this.data['content'].push({
+          col: 1,
+          row: i + 1,
+          background: '#fff',
+          size: 14,
+          text: item,
+          text_align: 'center'
+        })
+
+        this.data['content'].push({
+          col: 2,
+          row: i + 1,
+          background: '#fff',
+          size: 14,
+          text: h.toPhp(items['price']),
+          text_align: 'center'
+        })
+        this.data['rows'].push('auto')
+
+        amount += parseFloat(items['price'])
+
+        total_qty += parseInt(items['qty'])
       })
-      this.data['content'].push({
-        col: 2,
-        row: i + 1,
-        background: '#fff',
-        size: 14,
-        text: h.toPhp(items['amount']),
-        text_align: 'right'
-      })
-      this.data['rows'].push('auto')
     })
 
     //total
     this.data['content'].push({
       col: 0,
-      row: keys.length + 1,
+      row: this.info['item'].length + 1,
       background: '#ddd',
       size: 14,
-      text: this.$store.state.orders.length,
-      text_align: 'right'
+      text: total_qty,
+      text_align: 'center'
     })
     this.data['content'].push({
       col: 1,
-      row: keys.length + 1,
+      row: this.info['item'].length + 1,
       background: '#ddd',
       size: 14,
       text: 'Total',
@@ -205,8 +232,8 @@ export default {
     })
     this.data['content'].push({
       col: 2,
-      row: keys.length + 1,
-      background: '#eee',
+      row: this.info['item'].length + 1,
+      background: '#ccc',
       size: 14,
       text: h.toPhp(amount),
       text_align: 'right'

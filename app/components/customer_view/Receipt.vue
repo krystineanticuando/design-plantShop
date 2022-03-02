@@ -28,8 +28,15 @@
         <Label
           :text="'Customer ' + $store.state.my_pin"
           textAlignment="center"
+          fontWeight="bold"
+          fontSize="16"
         />
-        <Label text="Your Purchase" textAlignment="center" fontSize="26" />
+        <Label
+          text="Your Purchase"
+          textAlignment="center"
+          fontWeight="bold"
+          fontSize="26"
+        />
         <Label
           :text="today"
           textAlignment="center"
@@ -37,7 +44,7 @@
           marginTop="20"
         />
       </StackLayout>
-      <ScrollView orientation="vertical" marginTop="0">
+      <ScrollView orientation="vertical" marginTop="10">
         <four-col-grid
           :data="data"
           @onDelete="onDelete"
@@ -218,6 +225,7 @@ export default {
       this.data['rows'] = []
       this.data['cols'] = ['50', '50', '2*', '*']
       let amount = 0
+      let total_qty = 0
       const grp = {}
 
       //header
@@ -292,7 +300,7 @@ export default {
           background: '#ddd',
           size: 14,
           text: items['qty'],
-          text_align: 'right'
+          text_align: 'center'
         })
 
         this.data['content'].push({
@@ -301,7 +309,7 @@ export default {
           background: '#ddd',
           size: 14,
           text: items['code'],
-          text_align: 'right'
+          text_align: 'center'
         })
         this.data['content'].push({
           col: 3,
@@ -309,9 +317,11 @@ export default {
           background: '#fff',
           size: 14,
           text: h.toPhp(items['amount']),
-          text_align: 'right'
+          text_align: 'center'
         })
         this.data['rows'].push('auto')
+
+        total_qty += parseInt(items['qty'])
       })
 
       //total
@@ -320,21 +330,21 @@ export default {
         row: keys.length + 1,
         background: '#ddd',
         size: 14,
-        text: ' ',
-        text_align: 'right'
+        text: '',
+        text_align: 'center'
       })
       this.data['content'].push({
         col: 1,
         row: keys.length + 1,
         background: '#ddd',
         size: 14,
-        text: this.$store.state.orders.length,
-        text_align: 'right'
+        text: total_qty,
+        text_align: 'center'
       })
       this.data['content'].push({
         col: 2,
         row: keys.length + 1,
-        background: '#ddd',
+        background: '#ccc',
         size: 14,
         text: 'Total',
         text_align: 'right'
@@ -366,7 +376,7 @@ export default {
     };
   },
   created() {
-    this.today = new Date().toString();
+    this.today = h.formatDate(new Date(), true, '/')
     this.loadSelected()
   },
 };
