@@ -144,7 +144,8 @@ export default {
     onMoreInfo(item) {
       this.$navigateTo(PlantInfo, {
         props: {
-          info: item
+          info: item,
+          show_add_to_cart: true
         }
       });
     },

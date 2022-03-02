@@ -71,7 +71,7 @@
                   width="100"
                   height="100"
                   margin="10"
-                  @tap="item['content']"
+                  @tap="onViewPlantInfo(item['content'])"
                 />
                 <StackLayout col="1" row="0" orientation="vertical">
                   <Label
@@ -134,7 +134,8 @@ export default {
     onViewPlantInfo(item) {
       this.$navigateTo(PlantInfo, {
         props: {
-          info: item
+          info: item,
+          show_add_to_cart: false
         }
       });
     },

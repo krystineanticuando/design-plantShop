@@ -14,7 +14,6 @@ Vue.use(VueWindowedModal)
 
 Vue.prototype.$fb = firebase 
 Vue.config.silent = true
-
 new Vue({
   store,
   methods: {

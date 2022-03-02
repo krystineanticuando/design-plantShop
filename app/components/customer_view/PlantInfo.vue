@@ -56,7 +56,11 @@
           <!-- <HtmlView marginTop="20" :html="info['Description']" /> -->
           <WebView :src="info['Description']" />
           <two-col-grid :data="data" v-if="refresh == false" />
-          <Button class="add_to_cart" @tap="onAddToCart()">
+          <Button
+            class="add_to_cart"
+            @tap="onAddToCart()"
+            v-if="show_add_to_cart"
+          >
             <FormattedString>
               <Span class="fas" text.decode="&#xf217;"> </Span>
               <Span text=" Add to Cart" fontWeight="bold" />
@@ -81,7 +85,7 @@ export default {
   components: {
     TwoColGrid,
   },
-  props: ["info"],
+  props: ["info", 'show_add_to_cart'],
   data() {
     return {
       data: {
