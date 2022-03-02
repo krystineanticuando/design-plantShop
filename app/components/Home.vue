@@ -47,6 +47,7 @@
   </Page>
 </template>
 <script>
+import h from '../helpers/helpers'
 import PinGeneration from "@/components/customer_view/PinGeneration"
 import SellerLogin from '@/components/owner_view/SellerLogin.vue'
 export default {
@@ -56,14 +57,29 @@ export default {
     },
     onStoreOwner() {
       this.$navigateTo(SellerLogin);
+    },
+    loadPlantList(data) {
+      const obj = Object.keys(data)//.slice(0, 3)
+      this.$store.commit('plantsData', obj.map((d) => {
+        const x = data[d]
+        x["Price"] = h.toPhp(x["Price"]);
+        x["Description"] = `
+                    <p style="text-align: justify;text-justify: inter-word; font-size:12px; font-weight:normal;">
+                    ${x["Description"].replace(/\n|\t|\r|\\/gi, "")}
+                    </p>
+                    `;
+        return x
+      }))
     }
   },
-
   data() {
     return {};
   },
   mounted() {
-
+    this.$fb.getValue('/Plants')
+      .then(result => result['value'])
+      .then(this.loadPlantList)
+      .catch(alert)
   }
 };
 </script>

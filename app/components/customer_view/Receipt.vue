@@ -25,7 +25,10 @@
         backgroundColor="#eee"
         marginBottom="0"
       >
-        <Label text="Customer ID" textAlignment="center" />
+        <Label
+          :text="'Customer ' + $store.state.my_pin"
+          textAlignment="center"
+        />
         <Label text="Your Purchase" textAlignment="center" fontSize="26" />
         <Label
           :text="today"
@@ -38,6 +41,7 @@
         <four-col-grid
           :data="data"
           @onDelete="onDelete"
+          @onChangeQty="onChangeQty"
           v-if="refresh == false"
         />
       </ScrollView>
@@ -48,7 +52,7 @@
         marginTop="20"
         @tap="onGenerate()"
         height="40"
-        :disabled="show_receipt || orders.length == 0"
+        v-if="!show_receipt"
       >
         <FormattedString>
           <Span text=" Generate Receipt!" fontWeight="bold" color="#fff" />
@@ -102,6 +106,7 @@
 import h from '../../helpers/helpers'
 import PlantList from "@/components/customer_view/PlantList";
 import FourColGrid from '../common/grids.vue'
+import ChangeQty from '../common/changeqty.vue'
 export default {
   computed: {
     orders() {
@@ -110,26 +115,107 @@ export default {
   },
   methods: {
     onGenerate() {
-      this.show_receipt = true
-      setTimeout(() => {
-        this.show_receipt = false
-      }, 1500);
+      if (this.orders.length) {
+        confirm({
+          title: "Generate Receipt",
+          message: `Do you want to proceed with the order?`,
+          okButtonText: "Ok",
+          cancelButtonText: "Cancel"
+        }).then(async (result) => {
+          if (result) {
+            const v = await this.$fb.getValue(`/Transactions/${this.$store.state.my_pin}`)
+            let myorder = this.orders
+            const timestamp = new Date()
+            const today = h.formatDate(timestamp, false, '_')
+            if (v['value'] && v['value'] != null) {
+              myorder = this.orders.concat(
+                v['value']
+                [today]
+                ['orders']
+              )
+            }
+            const value = {
+              [this.$store.state.my_pin]: {
+                [today]: {
+                  timestamp: h.formatDate(timestamp, true, '/'),
+                  orders: myorder
+                }
+              }
+            }
+            this.$fb.update(
+              `/Transactions`,
+              value
+            );
+            this.refresh = true
+            this.show_receipt = true
+
+            this.$store.commit('generatedOrders')
+            this.loadSelected()
+            this.$nextTick(() => this.refresh = false)
+
+            setTimeout(() => {
+              this.show_receipt = false
+              setTimeout(() => {
+                this.onPlantList()
+              }, 500);
+            }, 1500);
+          }
+        })
+      }
     },
     onPlantList() {
       this.$navigateTo(PlantList);
     },
     onDelete(index) {
-      this.refresh = true
       const plantname = this.data['content'][index + 2]['text']
-      this.$store.commit('removeSimilarOrder', plantname)
-      this.loadSelected()
-      setTimeout(() => {
-        this.refresh = false
-      }, 50);
+      confirm({
+        title: "Remove Order",
+        message: `Do you want to delete  [ ${plantname} ] from the list?`,
+        okButtonText: "Ok",
+        cancelButtonText: "Cancel"
+      }).then(result => {
+        if (result) {
+          this.$store.commit('removeSimilarOrder', plantname)
+          this.$fb.getValue(`/Plants/${plantname}/Stock`)
+            .then(result => {
+              const v = parseInt(result['value']) +
+                parseInt(this.data['content'][index + 1]['text'])
+              this.$fb.update(
+                `/Plants/${plantname}/Stock`, v
+              );
+
+              this.$store.commit('updatePlantData',
+                {
+                  key: plantname,
+                  code: 'Stock',
+                  value: v
+                })
+
+              this.refresh = true
+              this.loadSelected()
+              this.$nextTick(() => this.refresh = false)
+            })
+            .catch(alert)
+        }
+      })
+    },
+    onChangeQty(index) {
+      const plantname = this.data['content'][index + 1]['text']
+      const qty = this.data['content'][index]['text']
+      this.$showModal(ChangeQty, {
+        props: {
+          qty: qty,
+          name: plantname
+        },
+        fullscreen: false,
+        animated: true,
+        stretched: false,
+        dimAmount: 0.5
+      });
     },
     loadSelected() {
-      this.data['content'].length = 0
-      this.data['rows'].length = 0
+      this.data['content'] = []
+      this.data['rows'] = []
       this.data['cols'] = ['50', '50', '2*', '*']
       let amount = 0
       const grp = {}
@@ -265,7 +351,7 @@ export default {
     }
   },
   components: {
-    FourColGrid,
+    FourColGrid
   },
   data() {
     return {

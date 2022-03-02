@@ -55,16 +55,34 @@
 </template>
 
 <script>
+import h from '../../helpers/helpers'
 import PlantList from "./PlantList";
 export default {
   data() {
     return {
-      pin: ""
+      pin: "12345"
     };
   },
   methods: {
     onPinGeneration() {
-      this.$navigateTo(PlantList);
+      this.$fb.getValue(`/Pins/${this.pin}`)
+        .then(result => {
+          const v = result['value']
+          if (typeof v !== 'object') {
+            // this.$fb.remove(`/Pins/${this.pin}`)
+            this.$store.commit('generatedOrders')
+            this.$store.commit('storePin', this.pin)
+            this.$navigateTo(PlantList);
+            this.pin = ""
+          } else {
+            alert({
+              title: "Pin Login",
+              message: "Incorrect pin. Try again.",
+              okButtonText: "Ok"
+            })
+          }
+        })
+        .catch(alert)
     }
   }
 };

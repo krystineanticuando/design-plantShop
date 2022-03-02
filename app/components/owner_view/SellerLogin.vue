@@ -57,13 +57,27 @@ import SellerView from "@/components/owner_view/SellerView.vue";
 export default {
   data() {
     return {
-      username: "",
-      password: ""
+      username: "username",
+      password: "password"
     };
   },
   methods: {
-    onSellerLogin() {
-      this.$navigateTo(SellerView);
+    async onSellerLogin() {
+      const v = await this.$fb.getValue(`/Seller`)
+      if (v['value'] != null) {
+        const username = v['value']['Username']
+        const password = v['value']['Password']
+        if (username == this.username && this.password == password) {
+          this.$navigateTo(SellerView);
+        } else {
+          alert({
+            title: "Seller Login",
+            message: "Invalid login credential. Try again.",
+            okButtonText: "Ok"
+          })
+        }
+      }
+
     }
   }
 };
@@ -76,6 +90,6 @@ export default {
   border-width: 2;
   border-radius: 50%;
   box-shadow: none;
-  padding: 20px;
+  padding: 30px 20px;
 }
 </style>

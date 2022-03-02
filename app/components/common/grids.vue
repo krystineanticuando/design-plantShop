@@ -37,8 +37,12 @@ export default {
       this.grid = this.data['content']
     },
     onSelected(index, item) {
-      if (index == 0 && item > 0)
-        this.$emit('onDelete', item)
+      if (item > 0) {
+        if (index == 0)
+          this.$emit('onDelete', item)
+        if (index == 1)
+          this.$emit('onChangeQty', item)
+      }
     }
   },
   mounted() {
