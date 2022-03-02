@@ -53,7 +53,8 @@
               />
             </FormattedString>
           </Label>
-          <HtmlView marginTop="20" :html="info['Description']" />
+          <!-- <HtmlView marginTop="20" :html="info['Description']" /> -->
+          <WebView :src="info['Description']" />
           <two-col-grid :data="data" v-if="refresh == false" />
           <Button class="add_to_cart" @tap="onAddToCart()">
             <FormattedString>

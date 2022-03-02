@@ -51,7 +51,7 @@
             :key="index"
             marginBottom="10"
           >
-            <Label class="user_css">
+            <Label class="transactions">
               <FormattedString>
                 <Span class="fas" text.decode="&#xf21d;"></Span>
                 <Span :text="item['user']" fontWeight="bold" />
@@ -269,7 +269,6 @@ export default {
       this.formatted_data.length = 0
       const v = await this.$fb.getValue(`/Transactions/${key}`)
       if (v['value'] != null) {
-        this.today = new Date().toString();
         let ids = v['value']
         if (key != "") {
           ids = {
@@ -299,7 +298,7 @@ export default {
   background: #eee;
 }
 
-.user_css {
+.transactions {
   background: #3b5998;
   color: #fff;
   width: 100%;
