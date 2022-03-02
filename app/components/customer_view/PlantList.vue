@@ -38,6 +38,7 @@
               height="50"
               width="50"
               text.decode="&#xf217;"
+              color="#25591f"
             >
             </Span>
             <Span text="  "></Span>
@@ -124,7 +125,8 @@
 
             <Button class="more_info" @tap="onMoreInfo(item)">
               <FormattedString>
-                <Span class="fas" text.decode="&#xf05a;"> </Span>
+                <Span class="fas" text.decode="&#xf05a;" color="#25591f">
+                </Span>
                 <Span text=" More Info" fontWeight="bold" />
               </FormattedString>
             </Button>
@@ -136,7 +138,6 @@
 </template>
 
 <script>
-
 import PlantInfo from "./PlantInfo";
 import Receipt from "./Receipt";
 export default {

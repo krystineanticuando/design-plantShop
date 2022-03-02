@@ -11,6 +11,7 @@
               height="50"
               width="50"
               text.decode="&#xf5bb;"
+              color="#25591f"
             >
             </Span>
           </FormattedString>
@@ -49,7 +50,7 @@
       </ScrollView>
       <Button
         borderRadius="50%"
-        backgroundColor="#3b5998"
+        backgroundColor="#228b22"
         width="360"
         marginTop="20"
         @tap="onAccept()"

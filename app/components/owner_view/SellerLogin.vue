@@ -67,7 +67,8 @@ export default {
       if (v['value'] != null) {
         const username = v['value']['Username']
         const password = v['value']['Password']
-        if (username == this.username && this.password == password) {
+        if (username.toLowerCase() == this.username.toLowerCase() && this.password.toLowerCase() == password.toLowerCase()) {
+          this.$store.commit('storeActive', username.toUpperCase())
           this.$navigateTo(SellerView);
         } else {
           alert({
@@ -83,7 +84,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .input-field {
   width: 100%;
   border-color: #aaa;
@@ -91,5 +92,8 @@ export default {
   border-radius: 50%;
   box-shadow: none;
   padding: 30px 20px;
+}
+.go {
+  background: #228b22;
 }
 </style>

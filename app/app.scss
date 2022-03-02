@@ -1,9 +1,11 @@
 @import '@nativescript/theme/core';
-@import '@nativescript/theme/default';
+@import '@nativescript/theme/core';
 
 * {
   font-family: 'SFUIText-Regular', 'monospace';
   font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .fab {

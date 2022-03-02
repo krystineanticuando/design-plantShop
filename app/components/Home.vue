@@ -87,31 +87,33 @@ export default {
 <style scoped>
 .customer {
   color: #fff;
-  background: #134e5e; /* fallback for old browsers */
+  /* background: #134e5e;
   background: -webkit-linear-gradient(
     to bottom,
     #71b280,
     #134e5e
-  ); /* Chrome 10-25, Safari 5.1-6 */
+  ); 
   background: linear-gradient(
     to bottom,
     #71b280,
     #134e5e
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  );  */
+  background: #25591f;
 }
 
 .owner {
   color: #fff;
-  background: #134e5e; /* fallback for old browsers */
+  /* background: #134e5e; 
   background: -webkit-linear-gradient(
     to top,
     #71b280,
     #134e5e
-  ); /* Chrome 10-25, Safari 5.1-6 */
+  );
   background: linear-gradient(
     to top,
     #71b280,
     #134e5e
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  );  */
+  background: #228b22;
 }
 </style>

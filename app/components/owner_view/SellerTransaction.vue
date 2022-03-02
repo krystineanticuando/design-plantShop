@@ -5,7 +5,7 @@
       <ActionItem v-show="!isBusy" ios.position="right">
         <Label @tap="onReset()" fontSize="22">
           <FormattedString>
-            <Span class="fas" text.decode="&#xf021;" color="#444"></Span>
+            <Span class="fas" text.decode="&#xf021;" color="#25591f"></Span>
           </FormattedString>
         </Label>
       </ActionItem>
@@ -73,7 +73,11 @@
                   row="0"
                 >
                   <FormattedString>
-                    <Span class="fas" text.decode="&#xf017;"></Span>
+                    <Span
+                      class="fas"
+                      text.decode="&#xf017;"
+                      color="#25591f"
+                    ></Span>
                     <Span
                       :text="' ' + it['date'].replace(/\_/gi, '/')"
                       fontWeight="bold"
@@ -89,7 +93,11 @@
                   @tap="onViewReceipt(item['user'], it['data']['ordered'])"
                 >
                   <FormattedString>
-                    <Span class="fas" text.decode="&#xf543;"></Span>
+                    <Span
+                      class="fas"
+                      text.decode="&#xf543;"
+                      color="#25591f"
+                    ></Span>
                     <Span text=" View Receipt" fontWeight="bold" />
                   </FormattedString>
                 </Button>
@@ -299,7 +307,7 @@ export default {
 }
 
 .transactions {
-  background: #3b5998;
+  background: #228b22;
   color: #fff;
   width: 100%;
   padding: 20px;

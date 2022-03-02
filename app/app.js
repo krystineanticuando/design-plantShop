@@ -24,7 +24,7 @@ new Vue({
       .catch(console.log)
     }
   },
-  created () {
+  created() {
     firebase.enableLogging(true)
     firebase.init({
       iOSEmulatorFlush: true,
@@ -32,7 +32,6 @@ new Vue({
     }).then(()=>console.log('firebase initialization ok'))
     .then(()=>{
       this.keepInSync("/Plants")
-      // this.keepInSync("/Transaction")
     }).catch(console.log)
   },
   render: (h) => h('frame', [h(Home)]),

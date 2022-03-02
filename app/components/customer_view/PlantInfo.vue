@@ -12,6 +12,7 @@
               height="50"
               width="50"
               text.decode="&#xf217;"
+              color="#25591f"
             >
             </Span>
             <Span text="  "></Span>
@@ -62,7 +63,7 @@
             v-if="show_add_to_cart"
           >
             <FormattedString>
-              <Span class="fas" text.decode="&#xf217;"> </Span>
+              <Span class="fas" text.decode="&#xf217;" color="#25591f"> </Span>
               <Span text=" Add to Cart" fontWeight="bold" />
             </FormattedString>
           </Button>

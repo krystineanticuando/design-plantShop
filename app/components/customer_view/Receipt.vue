@@ -11,6 +11,7 @@
               height="50"
               width="50"
               text.decode="&#xf5bb;"
+              color="#25591f"
             >
             </Span>
           </FormattedString>
@@ -26,7 +27,7 @@
         marginBottom="0"
       >
         <Label
-          :text="'Customer ' + $store.state.my_pin"
+          :text="'Customer ' + $store.state.active"
           textAlignment="center"
           fontWeight="bold"
           fontSize="16"
@@ -54,7 +55,7 @@
       </ScrollView>
       <Button
         borderRadius="50%"
-        backgroundColor="#3b5998"
+        backgroundColor="#25591f"
         width="360"
         marginTop="20"
         @tap="onGenerate()"
@@ -130,7 +131,7 @@ export default {
           cancelButtonText: "Cancel"
         }).then(async (result) => {
           if (result) {
-            const v = await this.$fb.getValue(`/Transactions/${this.$store.state.my_pin}`)
+            const v = await this.$fb.getValue(`/Transactions/${this.$store.state.active}`)
             let myorder = this.orders
             const timestamp = new Date()
             const today = h.formatDate(timestamp, false, '_')
@@ -142,7 +143,7 @@ export default {
               )
             }
             const value = {
-              [this.$store.state.my_pin]: {
+              [this.$store.state.active]: {
                 [today]: {
                   timestamp: h.formatDate(timestamp, true, '/'),
                   orders: myorder

@@ -5,7 +5,7 @@
       <ActionItem v-show="!isBusy" ios.position="right">
         <Label @tap="onReset()" fontSize="22">
           <FormattedString>
-            <Span class="fas" text.decode="&#xf021;" color="#444"></Span>
+            <Span class="fas" text.decode="&#xf021;" color="#25591f"></Span>
           </FormattedString>
         </Label>
       </ActionItem>
@@ -241,7 +241,7 @@ export default {
 }
 
 .inventory {
-  background: #3b5998;
+  background: #228b22;
   color: #fff;
   width: 100%;
   padding: 20px;

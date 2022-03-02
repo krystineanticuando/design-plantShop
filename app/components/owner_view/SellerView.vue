@@ -1,6 +1,5 @@
 <template>
   <Page>
-    <!-- <ActionBar title="Welcome Seller"> </ActionBar> -->
     <FlexboxLayout
       alignItems="flex-center"
       flexDirection="column"
@@ -10,10 +9,21 @@
       <StackLayout orientation="vertical" width="290" marginTop="10">
         <Label marginBottom="20" textAlignment="center">
           <FormattedString>
-            <Span text="Welcome Seller" fontWeight="bold" fontSize="20" />
+            <Span text="Hi, " fontWeight="bold" fontSize="20" />
+            <Span
+              :text="$store.state.active + '!'"
+              fontWeight="bold"
+              fontSize="20"
+              color="#19270d"
+            />
           </FormattedString>
         </Label>
-        <GridLayout columns="auto" rows="2*,*" class="grid">
+        <GridLayout
+          columns="auto"
+          rows="2*,*"
+          class="grid"
+          @tap="onShowSellerInventory()"
+        >
           <image
             height="100"
             width="100"
@@ -23,22 +33,23 @@
             col="0"
             row="0"
           />
-          <Label
-            col="0"
-            row="1"
-            class="label-grid"
-            @tap="onShowSellerInventory()"
+          <Label col="0" row="1" class="label-grid"
             ><FormattedString>
               <Span
                 text="View Inventory"
-                color="#666"
+                color="#228b22"
                 fontWeight="bold"
                 fontSize="16"
               />
             </FormattedString>
           </Label>
         </GridLayout>
-        <GridLayout columns="auto" rows="2*,*" class="grid">
+        <GridLayout
+          columns="auto"
+          rows="2*,*"
+          class="grid"
+          @tap="onShowSellerTransaction()"
+        >
           <image
             height="100"
             width="100"
@@ -48,15 +59,11 @@
             col="0"
             row="0"
           />
-          <Label
-            col="0"
-            row="1"
-            class="label-grid"
-            @tap="onShowSellerTransaction()"
+          <Label col="0" row="1" class="label-grid"
             ><FormattedString>
               <Span
                 text="View Transaction"
-                color="#666"
+                color="#228b22"
                 fontWeight="bold"
                 fontSize="16"
               />

@@ -8,13 +8,13 @@ export default new Vuex.Store({
       orders:[],
       plants:[],
       cleared_affected:{},
-      my_pin:""
+      active:""
   },
   mutations: {
 
     //pin
-    storePin(state,data){
-      state.my_pin = data
+    storeActive(state,data){
+      state.active = data
     },
 
     //plants
