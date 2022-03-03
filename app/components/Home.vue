@@ -6,7 +6,7 @@
       height="100%"
       style="justify-content: center; align-items: center"
     >
-      <image
+      <Image
         height="150"
         width="180"
         src="~/assets/icons/shop-logo.png"

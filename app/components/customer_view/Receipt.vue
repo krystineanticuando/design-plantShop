@@ -135,34 +135,47 @@ export default {
             let myorder = this.orders
             const timestamp = new Date()
             const today = h.formatDate(timestamp, false, '_')
+            let has_entry = false
             if (v['value'] && v['value'] != null) {
-              myorder = this.orders.concat(
-                v['value']
-                [today]
-                ['orders']
-              )
-            }
-            const value = {
-              [this.$store.state.active]: {
-                [today]: {
-                  timestamp: h.formatDate(timestamp, true, '/'),
-                  orders: myorder
+              has_entry = (today in Object.keys(v['value']))
+              if (has_entry) {
+                const today_order_only = v['value'][today]['orders']
+                myorder = this.orders.concat(today_order_only)
+                const value = {
+                  [this.$store.state.active]: {
+                    [today]: {
+                      timestamp: h.formatDate(timestamp, true, '/'),
+                      orders: myorder
+                    }
+                  }
                 }
+                this.$fb.update(
+                  `/Transactions`,
+                  value
+                );
               }
             }
-            this.$fb.update(
-              `/Transactions`,
-              value
-            );
+            if (has_entry == false) {
+              this.$fb.update(
+                `/Transactions/${this.$store.state.active}`,
+                {
+                  [today]: {
+                    timestamp: h.formatDate(timestamp, true, '/'),
+                    orders: myorder
+                  }
+                }
+              );
+            }
+
             this.refresh = true
             this.show_receipt = true
 
             this.$store.commit('generatedOrders')
             this.loadSelected()
-            this.$nextTick(() => this.refresh = false)
 
             setTimeout(() => {
               this.show_receipt = false
+              this.refresh = false
               setTimeout(() => {
                 this.onPlantList()
               }, 500);
@@ -201,7 +214,17 @@ export default {
 
               this.refresh = true
               this.loadSelected()
-              this.$nextTick(() => this.refresh = false)
+              setTimeout(() => {
+                this.refresh = false
+                if (this.orders.length == 0) {
+                  this.show_receipt = false
+                }
+                setTimeout(() => {
+                  if (this.orders.length == 0) {
+                    this.onPlantList()
+                  }
+                }, 500);
+              }, 1500);
             })
             .catch(alert)
         }
@@ -224,7 +247,7 @@ export default {
     loadSelected() {
       this.data['content'] = []
       this.data['rows'] = []
-      this.data['cols'] = ['50', '50', '2*', '*']
+      this.data['cols'] = ['50', '50', '2*', '120']
       let amount = 0
       let total_qty = 0
       const grp = {}
@@ -356,7 +379,7 @@ export default {
         background: '#eee',
         size: 14,
         text: h.toPhp(amount),
-        text_align: 'right'
+        text_align: 'center'
       })
       this.data['rows'].push('auto')
     }

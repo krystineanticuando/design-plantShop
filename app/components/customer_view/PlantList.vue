@@ -74,63 +74,24 @@
     <ActivityIndicator :busy="isBusy" v-if="isBusy" />
     <ScrollView orientation="vertical" v-else>
       <StackLayout orientation="vertical">
-        <StackLayout
-          v-for="(item, index) in plants"
-          :key="index"
-          orientation="horizontal"
-          class="plant_info"
-          paddingTop="20"
-          paddingBottom="20"
-          @tap="onMoreInfo(item)"
-        >
-          <Image
-            :src="item['Photo']"
-            width="100"
-            height="100"
-            margin="10"
-            verticalAlignment="top"
-            loadMode="async"
+        <StackLayout v-if="view == 0" orientation="vertical">
+          <choices
+            v-for="(item, index) in plants"
+            :key="index"
+            :item="item"
+            @onMoreInfo="onMoreInfo"
           />
-          <StackLayout orientation="vertical">
-            <Label
-              :text="item['Common_Name'].toUpperCase()"
-              textWrap="true"
-              fontSize="14"
-              fontWeight="bold"
-            />
-
-            <Label textWrap="true">
-              <FormattedString>
-                <Span color="#aaa" :text="item['Scientific_Name']" />
-              </FormattedString>
-            </Label>
-            <!-- <HtmlView
-                marginTop="20"
-                marginBottom="0"
-                :html="item['Description']"
-              /> -->
-            <WebView :src="item['Description']" />
-            <Label textWrap="true" textAlignment="right" marginRight="5">
-              <FormattedString>
-                <Span
-                  color="#f44336"
-                  :text="item['Price']"
-                  fontSize="16"
-                  fontWeight="bold"
-                />
-              </FormattedString>
-            </Label>
-
-            <Label height="20" backgroundColor="#fff"></Label>
-
-            <Button class="more_info" @tap="onMoreInfo(item)">
-              <FormattedString>
-                <Span class="fas" text.decode="&#xf05a;" color="#25591f">
-                </Span>
-                <Span text=" More Info" fontWeight="bold" />
-              </FormattedString>
-            </Button>
-          </StackLayout>
+        </StackLayout>
+        <StackLayout v-else-if="view == 1" orientation="vertical">
+          <standard
+            v-for="(item, index) in plants"
+            :key="index"
+            :item="item"
+            @onMoreInfo="onMoreInfo"
+          />
+        </StackLayout>
+        <StackLayout v-else-if="view == 2" orientation="vertical">
+          <two-cards :item="plants" @onMoreInfo="onMoreInfo" />
         </StackLayout>
       </StackLayout>
     </ScrollView>
@@ -140,7 +101,16 @@
 <script>
 import PlantInfo from "./PlantInfo";
 import Receipt from "./Receipt";
+
+import Choices from '../common/view/single_card'
+import Standard from '../common/view/standard'
+import TwoCards from '../common/view/two_cards.vue'
 export default {
+  components: {
+    Choices,
+    Standard,
+    TwoCards
+  },
   methods: {
     onMoreInfo(item) {
       this.$navigateTo(PlantInfo, {
@@ -187,7 +157,8 @@ export default {
       selections: [],
       show_no_item_in_cart: false,
       plants: [],
-      isBusy: true
+      isBusy: true,
+      view: 2
     };
   },
   computed: {
@@ -208,10 +179,6 @@ export default {
 </script>
 
 <style>
-.plant_info {
-  margin: 0 0 30px 0;
-  box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.2);
-}
 .more_info {
   border: 1px solid #aaa;
   box-shadow: none;

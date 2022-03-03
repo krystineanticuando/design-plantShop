@@ -35,7 +35,6 @@
         height="200"
         margin="10"
         verticalAlignment="top"
-        @tap="moreInfo(info)"
       />
       <ScrollView orientation="vertical" marginBottom="10">
         <StackLayout orientation="vertical" padding="10">
@@ -105,7 +104,7 @@ export default {
         .then(result => {
           const stock = parseInt(result['value']) - 1
           if (stock <= 0) {
-            alert('Your stock is empty. Please replenish.')
+            alert('The stock is almost empty. Please ask the seller to replenish.')
             return
           }
           this.info['Stock'] = stock
@@ -183,7 +182,6 @@ export default {
   created() {
     this.updateStock()
   },
-
 };
 </script>
 
