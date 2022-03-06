@@ -1,0 +1,25 @@
+{
+  "name": "plantshop",
+  "main": "app/app.js",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ns run android --no-hmr",
+    "release": "ns build android"
+  },
+  "dependencies": {
+    "@nativescript/core": "~8.1.1",
+    "@nativescript/firebase": "^11.1.3",
+    "@nativescript/theme": "~3.0.1",
+    "@nstudio/nativescript-cardview": "^2.0.1",
+    "nativescript-ui-dataform": "^8.0.1",
+    "nativescript-vue": "~2.9.0",
+    "nativescript-windowed-modal": "^7.0.0",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@nativescript/android": "8.1.1",
+    "@nativescript/webpack": "~5.0.0",
+    "nativescript-vue-template-compiler": "~2.9.0"
+  }
+}
