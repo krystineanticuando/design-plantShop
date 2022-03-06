@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "android": "ns run android --no-hmr"
+    "dev": "ns run android --no-hmr",
+    "release": "ns build android"
   },
   "dependencies": {
     "@nativescript/core": "~8.1.1",

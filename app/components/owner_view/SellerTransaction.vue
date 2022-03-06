@@ -68,7 +68,6 @@
                 <Label
                   style="text-align: center; padding: 40px 0"
                   fontSize="14"
-                  backgroundColor="#dfe3ee"
                   col="0"
                   row="0"
                 >
@@ -90,6 +89,7 @@
                   col="1"
                   row="0"
                   width="100%"
+                  backgroundColor="#dfe3ee"
                   @tap="onViewReceipt(item['user'], it['data']['ordered'])"
                 >
                   <FormattedString>

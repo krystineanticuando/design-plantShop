@@ -6,7 +6,7 @@
       height="100%"
       style="justify-content: center; align-items: center"
     >
-      <StackLayout orientation="vertical" width="290" marginTop="10">
+      <StackLayout orientation="vertical" width="90%" marginTop="10">
         <Label marginBottom="20" textAlignment="center">
           <FormattedString>
             <Span text="Hi, " fontWeight="bold" fontSize="20" />
@@ -18,58 +18,68 @@
             />
           </FormattedString>
         </Label>
-        <GridLayout
-          columns="auto"
-          rows="2*,*"
-          class="grid"
+        <card-view
+          margin="10"
+          elevation="5"
+          radius="0"
           @tap="onShowSellerInventory()"
+          height="165"
         >
-          <image
-            height="100"
-            width="100"
-            src="~/assets/icons/inventory.png"
-            stretch="fill"
-            loadMode="async"
-            col="0"
-            row="0"
-          />
-          <Label col="0" row="1" class="label-grid"
-            ><FormattedString>
-              <Span
-                text="View Inventory"
-                color="#228b22"
-                fontWeight="bold"
-                fontSize="16"
+          <StackLayout orientation="vertical">
+            <GridLayout columns="auto" rows="2*,*" class="grid">
+              <Image
+                height="100"
+                width="100"
+                src="~/assets/icons/inventory.png"
+                stretch="fill"
+                loadMode="async"
+                col="0"
+                row="0"
               />
-            </FormattedString>
-          </Label>
-        </GridLayout>
-        <GridLayout
-          columns="auto"
-          rows="2*,*"
-          class="grid"
+              <Label col="0" row="1" class="label-grid" height="50"
+                ><FormattedString>
+                  <Span
+                    text="View Inventory"
+                    color="#228b22"
+                    fontWeight="bold"
+                    fontSize="16"
+                  />
+                </FormattedString>
+              </Label>
+            </GridLayout>
+          </StackLayout>
+        </card-view>
+        <card-view
+          margin="10"
+          elevation="5"
+          radius="0"
           @tap="onShowSellerTransaction()"
+          height="165"
         >
-          <image
-            height="100"
-            width="100"
-            src="~/assets/icons/transaction.png"
-            stretch="fill"
-            loadMode="async"
-            col="0"
-            row="0"
-          />
-          <Label col="0" row="1" class="label-grid"
-            ><FormattedString>
-              <Span
-                text="View Transaction"
-                color="#228b22"
-                fontWeight="bold"
-                fontSize="16"
+          <StackLayout orientation="vertical">
+            <GridLayout columns="auto" rows="2*,*" class="grid">
+              <Image
+                height="100"
+                width="100"
+                src="~/assets/icons/transaction.png"
+                stretch="fill"
+                loadMode="async"
+                col="0"
+                row="0"
               />
-            </FormattedString>
-          </Label>
-        </GridLayout>
+              <Label col="0" row="1" class="label-grid" height="50"
+                ><FormattedString>
+                  <Span
+                    text="View Transaction"
+                    color="#228b22"
+                    fontWeight="bold"
+                    fontSize="16"
+                  />
+                </FormattedString>
+              </Label>
+            </GridLayout>
+          </StackLayout>
+        </card-view>
       </StackLayout>
     </FlexboxLayout>
   </Page>
@@ -98,19 +108,12 @@ export default {
 
 <style>
 .grid {
-  border-color: #aaa;
-  border-width: 2;
-  background: #ddd;
-  height: 30%;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  background: #dfe3ee;
 }
 
 .label-grid {
   background: #fff;
   width: 100%;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  padding: 50px 20px;
+  padding: 30px 30px;
 }
 </style>

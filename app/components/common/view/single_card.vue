@@ -1,5 +1,11 @@
 <template>
-  <card-view margin="10" elevation="10" radius="20" @tap="onMoreInfo(item)">
+  <card-view
+    margin="3"
+    marginBottom="10"
+    elevation="10"
+    radius="2"
+    @tap="onMoreInfo(item)"
+  >
     <StackLayout orientation="vertical" padding="20">
       <Image
         height="150"
@@ -36,7 +42,6 @@
           <Span :text="item['Common_Name'].slice(1).toUpperCase()" />
         </FormattedString>
       </Label>
-
       <Label textWrap="true" textAlignment="center" width="100%">
         <FormattedString>
           <Span color="#aaa" :text="item['Scientific_Name']" />
@@ -45,7 +50,6 @@
     </StackLayout>
   </card-view>
 </template>
-
 <script>
 export default {
   props: ['item'],
