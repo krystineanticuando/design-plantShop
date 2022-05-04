@@ -158,7 +158,7 @@ export default {
       show_no_item_in_cart: false,
       plants: [],
       isBusy: true,
-      view: 2
+      view: 2//
     };
   },
   computed: {

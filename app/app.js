@@ -30,6 +30,7 @@ new Vue({
     }
   },
   created() {
+    //na
     if(firebase)
     {
       firebase.enableLogging(true)

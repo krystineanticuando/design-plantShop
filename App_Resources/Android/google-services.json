@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "423273245184",
-    "firebase_url": "https://mobilesuite-4865a-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "mobilesuite-4865a",
-    "storage_bucket": "mobilesuite-4865a.appspot.com"
+    "project_number": "538673036023",
+    "firebase_url": "https://designdatabase-3554f-default-rtdb.firebaseio.com",
+    "project_id": "designdatabase-3554f",
+    "storage_bucket": "designdatabase-3554f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423273245184:android:748af47cd7e2c5166cc6e5",
+        "mobilesdk_app_id": "1:538673036023:android:fede27761e11581312b1f2",
         "android_client_info": {
           "package_name": "com.plantshop.design_proj"
         }
       },
       "oauth_client": [
         {
-          "client_id": "423273245184-bq9hq6s7uh94ohbaneij65ibd2bij6n8.apps.googleusercontent.com",
+          "client_id": "538673036023-63hq07hc7rccdunoe2o1i9dklipclchh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfR5SRScLiyKM1BZWxpynR3SEeWNX3W5I"
+          "current_key": "AIzaSyDwNY15flulsYGJaX1OBBr32VttsQjERQs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "423273245184-bq9hq6s7uh94ohbaneij65ibd2bij6n8.apps.googleusercontent.com",
+              "client_id": "538673036023-63hq07hc7rccdunoe2o1i9dklipclchh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

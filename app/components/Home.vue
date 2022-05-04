@@ -62,6 +62,8 @@ export default {
       const obj = Object.keys(data)//.slice(0, 3)
       this.$store.commit('plantsData', obj.map((d) => {
         const x = data[d]
+         x['Photo'] = `~/assets/images/${x['Common_Name']}.png`
+        // x['Photo'] = '~/assets/images/plant0.png'
         x["Price"] = h.toPhp(x["Price"]);
         x["Description"] = `
                     <p style="text-align: justify;text-justify: inter-word; font-size:12px; font-weight:normal;">
